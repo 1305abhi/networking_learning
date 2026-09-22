@@ -47,34 +47,36 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onSelectDay, setCu
   return (
     <div className="space-y-6">
       
-      {/* Hero Banner: Clean & Minimal */}
-      <div className="bg-white rounded-xl border border-slate-200/90 p-6 shadow-xs">
+      {/* Hero Banner: Clean & Minimalist Studio Card */}
+      <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-7 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
-              <span className="font-semibold text-indigo-600">Day {currentDayMeta.day} of 30</span>
-              <span>•</span>
-              <span>Week {currentDayMeta.week}</span>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-md">
+                Day {currentDayMeta.day} of 30
+              </span>
+              <span className="text-slate-300">•</span>
+              <span className="text-xs font-medium text-slate-500">Week {currentDayMeta.week}: {WEEK_MODULES.find(m => m.week === currentDayMeta.week)?.title}</span>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
               {currentDayMeta.title}
             </h1>
-            <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
+            <p className="text-sm text-slate-600 max-w-2xl leading-relaxed">
               {currentDayMeta.subtitle}
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={() => onSelectDay(currentDayMeta.day)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs transition-colors shadow-xs"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm transition-all shadow-xs hover:shadow active:scale-98"
             >
-              <Play className="w-3.5 h-3.5 fill-white" />
+              <Play className="w-4 h-4 fill-white" />
               Continue Day {currentDayMeta.day}
             </button>
             <button
               onClick={() => setCurrentView('roadmap')}
-              className="px-4 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium text-xs transition-colors"
+              className="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium text-sm transition-all active:scale-98"
             >
               Roadmap
             </button>
@@ -82,14 +84,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onSelectDay, setCu
         </div>
 
         {/* Minimal Progress Bar */}
-        <div className="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-500">
+        <div className="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500">
           <div className="flex items-center gap-2">
-            <span>Overall Curriculum: <strong className="text-slate-800 font-mono">{completedCount} of 30 days</strong> completed</span>
-            <span>({progressPercent}%)</span>
+            <span>Overall Curriculum: <strong className="text-slate-900 font-mono font-semibold">{completedCount} of 30 days</strong> completed</span>
+            <span className="text-slate-400">({progressPercent}%)</span>
           </div>
-          <div className="w-full sm:w-64 bg-slate-100 rounded-full h-1.5 overflow-hidden">
+          <div className="w-full sm:w-72 bg-slate-100 rounded-full h-2 overflow-hidden">
             <div 
-              className="bg-indigo-600 h-1.5 rounded-full transition-all duration-300"
+              className="bg-indigo-600 h-2 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -97,38 +99,38 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onSelectDay, setCu
       </div>
 
       {/* Metrics Row: Crisp & Clean */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-        <div className="bg-white rounded-xl border border-slate-200/80 p-4">
-          <div className="text-[11px] font-medium text-slate-500">Curriculum Progress</div>
-          <div className="text-xl font-bold font-mono text-slate-900 mt-1">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs hover:border-slate-300 transition-colors">
+          <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Curriculum Progress</div>
+          <div className="text-2xl font-bold font-mono text-slate-900 mt-1.5">
             {progressPercent}%
           </div>
-          <div className="text-[10px] text-slate-400 mt-0.5">{completedCount} / 30 Days Finished</div>
+          <div className="text-xs text-slate-500 mt-0.5">{completedCount} / 30 Days Finished</div>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200/80 p-4">
-          <div className="text-[11px] font-medium text-slate-500">Current Streak</div>
-          <div className="text-xl font-bold font-mono text-slate-900 mt-1 flex items-center gap-1.5">
-            <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />
-            {progress.streak} <span className="text-xs font-sans text-slate-400 font-normal">days</span>
+        <div className="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs hover:border-slate-300 transition-colors">
+          <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Current Streak</div>
+          <div className="text-2xl font-bold font-mono text-slate-900 mt-1.5 flex items-center gap-1.5">
+            <Flame className="w-5 h-5 text-amber-500 fill-amber-500" />
+            {progress.streak} <span className="text-sm font-sans text-slate-400 font-normal">days</span>
           </div>
-          <div className="text-[10px] text-slate-400 mt-0.5">Consecutive learning</div>
+          <div className="text-xs text-slate-500 mt-0.5">Consecutive active study</div>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200/80 p-4">
-          <div className="text-[11px] font-medium text-slate-500">Quiz Average</div>
-          <div className="text-xl font-bold font-mono text-slate-900 mt-1">
+        <div className="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs hover:border-slate-300 transition-colors">
+          <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Quiz Mastery</div>
+          <div className="text-2xl font-bold font-mono text-slate-900 mt-1.5">
             {avgQuizScore > 0 ? `${avgQuizScore}%` : '—'}
           </div>
-          <div className="text-[10px] text-slate-400 mt-0.5">{quizEntries.length} quizzes taken</div>
+          <div className="text-xs text-slate-500 mt-0.5">{quizEntries.length} quizzes completed</div>
         </div>
 
-        <div className="bg-white rounded-xl border border-slate-200/80 p-4">
-          <div className="text-[11px] font-medium text-slate-500">Study Time</div>
-          <div className="text-xl font-bold font-mono text-slate-900 mt-1">
-            {totalStudyHours} <span className="text-xs font-sans text-slate-400 font-normal">hrs</span>
+        <div className="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs hover:border-slate-300 transition-colors">
+          <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Study Time</div>
+          <div className="text-2xl font-bold font-mono text-slate-900 mt-1.5">
+            {totalStudyHours} <span className="text-sm font-sans text-slate-400 font-normal">hrs</span>
           </div>
-          <div className="text-[10px] text-slate-400 mt-0.5">{progress.studyMinutes} focus minutes</div>
+          <div className="text-xs text-slate-500 mt-0.5">{progress.studyMinutes} logged focus mins</div>
         </div>
       </div>
 
@@ -136,12 +138,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onSelectDay, setCu
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Weekly Modules Overview (2 cols) */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200/90 p-5 space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Weekly Modules</h2>
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/90 p-6 space-y-4 shadow-xs">
+          <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
+            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Weekly Modules</h2>
             <button
               onClick={() => setCurrentView('roadmap')}
-              className="text-xs text-indigo-600 hover:text-indigo-800 font-medium"
+              className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold"
             >
               View Full 30-Day Grid →
             </button>
@@ -157,15 +159,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onSelectDay, setCu
                 <div 
                   key={module.week}
                   onClick={() => setCurrentView('roadmap')}
-                  className="p-3.5 rounded-lg border border-slate-200/70 hover:border-slate-300 hover:bg-slate-50/50 cursor-pointer transition-colors"
+                  className="p-4 rounded-xl border border-slate-200/80 hover:border-slate-300 hover:bg-slate-50/60 cursor-pointer transition-all"
                 >
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-mono font-medium text-slate-400">Week {module.week}</span>
-                        <h3 className="text-xs font-bold text-slate-900">{module.title}</h3>
+                        <span className="text-xs font-mono font-medium text-slate-400 bg-slate-100 px-2 py-0.5 rounded">Week {module.week}</span>
+                        <h3 className="text-sm font-bold text-slate-900">{module.title}</h3>
                       </div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">{module.description}</p>
+                      <p className="text-xs text-slate-500 mt-1">{module.description}</p>
                     </div>
                     <div className="text-right">
                       <span className="text-xs font-mono font-semibold text-slate-800">
@@ -174,9 +176,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onSelectDay, setCu
                     </div>
                   </div>
 
-                  <div className="w-full bg-slate-100 rounded-full h-1 mt-2.5 overflow-hidden">
+                  <div className="w-full bg-slate-100 rounded-full h-1.5 mt-3 overflow-hidden">
                     <div 
-                      className="bg-indigo-600 h-1 rounded-full transition-all duration-300"
+                      className="bg-indigo-600 h-1.5 rounded-full transition-all duration-300"
                       style={{ width: `${weekPercent}%` }}
                     />
                   </div>
@@ -187,13 +189,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onSelectDay, setCu
         </div>
 
         {/* Sidebar: Revision Queue & Quick Tools (1 col) */}
-        <div className="space-y-5">
+        <div className="space-y-6">
           
           {/* Revision Queue */}
-          <div className="bg-white rounded-xl border border-slate-200/90 p-5 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-5 space-y-3.5 shadow-xs">
+            <div className="flex items-center justify-between pb-2.5 border-b border-slate-100">
               <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">Revision Due</span>
-              <span className="text-xs font-mono text-slate-500">{revisionDueDays.length}</span>
+              <span className="text-xs font-mono font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">{revisionDueDays.length}</span>
             </div>
 
             {revisionDueDays.length === 0 ? (
@@ -201,15 +203,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onSelectDay, setCu
                 All caught up! No flagged revision items.
               </p>
             ) : (
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 {revisionDueDays.slice(0, 3).map((d) => (
                   <div 
                     key={d.day}
                     onClick={() => onSelectDay(d.day)}
-                    className="p-2 rounded border border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors text-xs flex items-center justify-between"
+                    className="p-2.5 rounded-lg border border-slate-200/70 hover:bg-slate-50 cursor-pointer transition-colors text-xs flex items-center justify-between"
                   >
-                    <span className="text-slate-800 truncate pr-2">Day {d.day}: {d.title}</span>
-                    <ArrowRight className="w-3 h-3 text-slate-400 shrink-0" />
+                    <span className="text-slate-800 font-medium truncate pr-2">Day {d.day}: {d.title}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                   </div>
                 ))}
               </div>
@@ -217,46 +219,46 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onSelectDay, setCu
           </div>
 
           {/* Quick Tools */}
-          <div className="bg-white rounded-xl border border-slate-200/90 p-5 space-y-3">
-            <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block pb-2 border-b border-slate-100">
-              Tools & Drills
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-5 space-y-3.5 shadow-xs">
+            <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block pb-2.5 border-b border-slate-100">
+              Interactive Tools
             </span>
 
-            <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="grid grid-cols-2 gap-2.5 text-xs">
               <button
                 onClick={() => setCurrentView('subnet-tool')}
-                className="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-left transition-colors"
+                className="p-3 rounded-xl border border-slate-200/80 hover:border-slate-300 hover:bg-slate-50/80 text-left transition-all group"
               >
-                <Binary className="w-4 h-4 text-indigo-600 mb-1" />
+                <Binary className="w-4 h-4 text-indigo-600 mb-1.5 group-hover:scale-105 transition-transform" />
                 <div className="font-semibold text-slate-800">Subnet Calc</div>
-                <div className="text-[10px] text-slate-400">CIDR & binary</div>
+                <div className="text-[11px] text-slate-400">CIDR math</div>
               </button>
 
               <button
                 onClick={() => setCurrentView('packet-tool')}
-                className="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-left transition-colors"
+                className="p-3 rounded-xl border border-slate-200/80 hover:border-slate-300 hover:bg-slate-50/80 text-left transition-all group"
               >
-                <Layers className="w-4 h-4 text-indigo-600 mb-1" />
+                <Layers className="w-4 h-4 text-indigo-600 mb-1.5 group-hover:scale-105 transition-transform" />
                 <div className="font-semibold text-slate-800">Packet Flow</div>
-                <div className="text-[10px] text-slate-400">Encapsulation</div>
+                <div className="text-[11px] text-slate-400">Encapsulation</div>
               </button>
 
               <button
                 onClick={() => setCurrentView('cli-simulator')}
-                className="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-left transition-colors"
+                className="p-3 rounded-xl border border-slate-200/80 hover:border-slate-300 hover:bg-slate-50/80 text-left transition-all group"
               >
-                <Terminal className="w-4 h-4 text-indigo-600 mb-1" />
+                <Terminal className="w-4 h-4 text-indigo-600 mb-1.5 group-hover:scale-105 transition-transform" />
                 <div className="font-semibold text-slate-800">CLI Sandbox</div>
-                <div className="text-[10px] text-slate-400">ping & tracert</div>
+                <div className="text-[11px] text-slate-400">ping & tracert</div>
               </button>
 
               <button
                 onClick={() => setCurrentView('ports-explorer')}
-                className="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-left transition-colors"
+                className="p-3 rounded-xl border border-slate-200/80 hover:border-slate-300 hover:bg-slate-50/80 text-left transition-all group"
               >
-                <ListFilter className="w-4 h-4 text-indigo-600 mb-1" />
+                <ListFilter className="w-4 h-4 text-indigo-600 mb-1.5 group-hover:scale-105 transition-transform" />
                 <div className="font-semibold text-slate-800">Ports Matrix</div>
-                <div className="text-[10px] text-slate-400">0–1023 reference</div>
+                <div className="text-[11px] text-slate-400">0–1023 reference</div>
               </button>
             </div>
           </div>

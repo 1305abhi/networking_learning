@@ -28,47 +28,49 @@ export const NotesModal: React.FC<NotesModalProps> = ({ dayNumber, onClose }) =>
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl border border-slate-200 w-full max-w-lg shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
+      <div className="bg-white rounded-2xl border border-slate-200/90 w-full max-w-lg shadow-2xl overflow-hidden animate-modal">
         
-        <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <FileText className="w-4 h-4 text-indigo-600" />
+        <div className="px-6 py-4.5 border-b border-slate-100 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600">
+              <FileText className="w-4 h-4" />
+            </div>
             <h3 className="text-sm font-bold text-slate-900">
               Personal Study Notes — Day {dayNumber}
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="p-5 space-y-3">
-          <p className="text-xs text-slate-500">
+        <div className="p-6 space-y-4">
+          <div className="text-xs text-slate-500 bg-slate-50 border border-slate-200/70 p-2.5 rounded-xl">
             Topic: <span className="font-semibold text-slate-800">{dayMeta?.title}</span>
-          </p>
+          </div>
 
           <textarea
             value={noteText}
             onChange={(e) => setNoteText(e.target.value)}
             placeholder="Write your key takeaways, tricky subnet calculations, or reminder commands..."
-            className="w-full h-48 p-3 rounded-lg border border-slate-200 text-xs font-sans text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 leading-relaxed resize-none"
+            className="w-full h-52 p-3.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 leading-relaxed resize-none bg-white shadow-xs"
           />
         </div>
 
-        <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex justify-end gap-2 text-xs">
+        <div className="px-6 py-4 bg-slate-50/80 border-t border-slate-100 flex justify-end gap-2.5">
           <button
             onClick={onClose}
-            className="px-3.5 py-1.5 rounded-md border border-slate-200 hover:bg-slate-100 text-slate-700 transition-colors font-medium"
+            className="px-4 py-2 rounded-xl border border-slate-200 hover:bg-white text-xs font-medium text-slate-600 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition-all shadow-xs active:scale-98"
           >
             <Save className="w-3.5 h-3.5" /> Save Notes
           </button>
