@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { UserProgress } from '../types';
 
-const STORAGE_KEY = 'netlearn_progress_v1';
+const STORAGE_KEY = 'netquest_progress_v1';
+const LEGACY_STORAGE_KEY = 'netlearn_progress_v1';
 
 const INITIAL_PROGRESS: UserProgress = {
   currentDay: 1,
@@ -39,7 +40,7 @@ const ProgressContext = createContext<ProgressContextType | undefined>(undefined
 export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [progress, setProgress] = useState<UserProgress>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
         // Verify streak

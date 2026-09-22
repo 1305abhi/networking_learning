@@ -1,4 +1,4 @@
-# NetLearn: 30-Day Networking Fundamentals & CCNA Readiness Platform
+# NetQuest: 30-Day Networking Fundamentals & CCNA Readiness Platform
 
 A minimal, light-themed, local-first web application designed to teach networking fundamentals across a structured 30-day curriculum with a 2-hour daily commitment.
 

@@ -65,7 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, ope
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="text-base font-bold tracking-tight text-slate-900 group-hover:text-indigo-600 transition-colors">
-                  NetLearn
+                  NetQuest
                 </span>
                 <span className="text-[10px] font-mono font-medium text-slate-500 bg-slate-100 border border-slate-200/80 px-1.5 py-0.5 rounded">
                   30-Day

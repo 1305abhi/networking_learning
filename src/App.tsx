@@ -81,7 +81,7 @@ export const App: React.FC = () => {
             <div className="w-6 h-6 rounded-md bg-indigo-600 text-white flex items-center justify-center shadow-xs">
               <Network className="w-3.5 h-3.5" />
             </div>
-            <span className="text-slate-900 font-bold tracking-tight">NetLearn</span>
+            <span className="text-slate-900 font-bold tracking-tight">NetQuest</span>
             <span className="text-slate-300">•</span>
             <span>30-Day Networking Fundamentals & CCNA Readiness</span>
           </div>

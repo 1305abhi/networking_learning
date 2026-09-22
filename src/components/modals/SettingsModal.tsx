@@ -21,7 +21,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `netlearn_progress_${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `netquest_progress_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
     setMessage({ type: 'success', text: 'Progress file successfully downloaded!' });
