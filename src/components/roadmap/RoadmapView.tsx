@@ -66,13 +66,13 @@ export const RoadmapView: React.FC<RoadmapViewProps> = ({ onSelectDay }) => {
       </div>
 
       {/* Week Selector Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto text-xs sm:text-sm font-medium pb-1">
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar text-xs sm:text-sm font-medium pb-1">
         <button
           onClick={() => setSelectedWeek('all')}
-          className={`px-3.5 py-2 rounded-xl transition-all ${
+          className={`h-10 px-4 rounded-xl inline-flex items-center justify-center shrink-0 whitespace-nowrap transition-all border shadow-xs ${
             selectedWeek === 'all'
-              ? 'bg-slate-900 text-white font-semibold shadow-xs'
-              : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/90 shadow-xs'
+              ? 'bg-slate-900 border-slate-900 text-white font-semibold'
+              : 'bg-white border-slate-200/90 text-slate-700 hover:bg-slate-50'
           }`}
         >
           All 30 Days
@@ -81,10 +81,10 @@ export const RoadmapView: React.FC<RoadmapViewProps> = ({ onSelectDay }) => {
           <button
             key={m.week}
             onClick={() => setSelectedWeek(m.week)}
-            className={`px-3.5 py-2 rounded-xl whitespace-nowrap transition-all ${
+            className={`h-10 px-4 rounded-xl inline-flex items-center justify-center shrink-0 whitespace-nowrap transition-all border shadow-xs ${
               selectedWeek === m.week
-                ? 'bg-indigo-600 text-white font-semibold shadow-xs'
-                : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/90 shadow-xs'
+                ? 'bg-indigo-600 border-indigo-600 text-white font-semibold'
+                : 'bg-white border-slate-200/90 text-slate-700 hover:bg-slate-50'
             }`}
           >
             Week {m.week}: {m.title}
