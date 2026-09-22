@@ -78,15 +78,15 @@ export const PacketVisualizer: React.FC = () => {
       headers: {
         l2New: 'New Ethernet Frame [ Src MAC: R1 WAN MAC | Dest MAC: ISP Next-Hop MAC ]',
         l3Modified: 'IPv4 [ Src: 192.168.1.10 -> Dest: 93.184.216.34 | TTL: 63 (Decremented!) ]',
-        l4: 'TCP Header (Preserved)',
+        l4: 'TCP [ 52145 -> 443 ]',
         payload: 'Data'
       },
-      explanation: 'At every router hop, the old Layer 2 MAC frame is discarded, TTL is decremented, and a brand new Layer 2 frame is generated for the next link.',
-      socNote: 'Perimeter firewalls on the router apply ACLs and NAT before forwarding out to the WAN.'
+      explanation: 'Routers strip and reconstruct Layer 2 headers across every single routed hop. Layer 3 IPs remain intact (unless NAT is active).',
+      socNote: 'TTL expiration (TTL=0) triggers ICMP Time Exceeded packets, which is the foundational mechanism for traceroute.'
     },
     {
-      title: 'Step 7: Destination Web Server Decapsulation',
-      location: 'Web Server (93.184.216.34)',
+      title: 'Step 7: Destination Server Decapsulation',
+      location: 'Cloud Web Server (93.184.216.34)',
       device: 'Destination Host Stack',
       description: 'The server verifies the FCS, strips L2 frame, verifies Dest IP matches its own, routes L4 segment to TCP port 443, and hands the HTTP GET payload to the web server process (Nginx/Apache).',
       headers: {
@@ -100,57 +100,57 @@ export const PacketVisualizer: React.FC = () => {
   const current = steps[currentStep];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-5xl mx-auto">
       
-      {/* Header */}
-      <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+      {/* Header Container */}
+      <div className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-indigo-50 border border-indigo-200 text-indigo-700">
+              <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-100 text-indigo-700">
                 VISUALIZER
               </span>
-              <h1 className="text-xl font-bold text-slate-900">Packet Encapsulation & Journey Flow</h1>
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">Packet Encapsulation & Journey Flow</h1>
             </div>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
               Step through how packets are encapsulated from Layer 7 to Layer 1 and rewritten across switches and routers
             </p>
           </div>
 
           {/* Stepper Controls */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 self-start sm:self-auto">
             <button
               onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
               disabled={currentStep === 0}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-md border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium text-slate-700 transition-colors"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed text-xs sm:text-sm font-semibold text-slate-700 transition-all active:scale-98 shadow-xs"
             >
-              <ArrowLeft className="w-3.5 h-3.5" /> Previous
+              <ArrowLeft className="w-4 h-4" /> Previous
             </button>
-            <span className="text-xs font-mono font-semibold text-slate-700 px-2">
+            <span className="text-xs font-mono font-bold text-slate-800 bg-slate-100 px-3 py-2 rounded-xl">
               {currentStep + 1} / {steps.length}
             </span>
             <button
               onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))}
               disabled={currentStep === steps.length - 1}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium text-white transition-colors"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-xs sm:text-sm font-semibold text-white transition-all active:scale-98 shadow-xs"
             >
-              Next <ArrowRight className="w-3.5 h-3.5" />
+              Next <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {/* Step Progress Tracker */}
-        <div className="grid grid-cols-7 gap-1 mt-4 pt-4 border-t border-slate-100">
+        <div className="grid grid-cols-7 gap-1.5 mt-5 pt-4 border-t border-slate-100">
           {steps.map((s, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentStep(idx)}
-              className={`h-2 rounded-full transition-all ${
+              className={`h-2.5 rounded-full transition-all ${
                 idx === currentStep
-                  ? 'bg-indigo-600 ring-2 ring-indigo-200'
+                  ? 'bg-indigo-600 ring-2 ring-indigo-300'
                   : idx < currentStep
                   ? 'bg-emerald-500'
-                  : 'bg-slate-200'
+                  : 'bg-slate-200 hover:bg-slate-300'
               }`}
               title={s.title}
             />
@@ -159,66 +159,66 @@ export const PacketVisualizer: React.FC = () => {
       </div>
 
       {/* Main Step Detail Card */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-5">
+      <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-7 shadow-xs space-y-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 pb-4 border-b border-slate-100">
           <div>
-            <span className="text-xs font-mono font-semibold text-indigo-600 uppercase">
+            <span className="text-xs font-mono font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-md uppercase tracking-wider">
               {current.location} • {current.device}
             </span>
-            <h2 className="text-lg font-bold text-slate-900 mt-0.5">{current.title}</h2>
+            <h2 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900 mt-2">{current.title}</h2>
           </div>
         </div>
 
-        <p className="text-sm text-slate-700 leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
           {current.description}
         </p>
 
         {/* Visual Frame / Packet Container */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block">
             Protocol Data Unit (PDU) Header Anatomy:
           </span>
 
-          <div className="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs space-y-2 shadow-inner overflow-x-auto">
+          <div className="p-5 rounded-2xl bg-slate-950 text-slate-100 font-mono text-xs space-y-2.5 shadow-inner overflow-x-auto">
             {current.headers.l2 && (
-              <div className="p-2 rounded bg-slate-800 border border-slate-700 text-emerald-400">
-                <span className="text-slate-400 text-[10px] block uppercase">Layer 2: Data Link Header</span>
+              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-emerald-400">
+                <span className="text-slate-400 text-[10px] font-semibold block uppercase tracking-wider mb-0.5">Layer 2: Data Link Header</span>
                 {current.headers.l2}
               </div>
             )}
             {current.headers.l2New && (
-              <div className="p-2 rounded bg-slate-800 border border-emerald-600 text-emerald-300">
-                <span className="text-emerald-400 text-[10px] block uppercase">Layer 2: Rewritten MAC Frame for Next Hop</span>
+              <div className="p-3 rounded-xl bg-slate-900 border border-emerald-600 text-emerald-300">
+                <span className="text-emerald-400 text-[10px] font-semibold block uppercase tracking-wider mb-0.5">Layer 2: Rewritten MAC Frame for Next Hop</span>
                 {current.headers.l2New}
               </div>
             )}
             {current.headers.l3 && (
-              <div className="p-2 rounded bg-slate-800 border border-slate-700 text-cyan-400">
-                <span className="text-slate-400 text-[10px] block uppercase">Layer 3: IP Packet Header</span>
+              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-cyan-400">
+                <span className="text-slate-400 text-[10px] font-semibold block uppercase tracking-wider mb-0.5">Layer 3: IP Packet Header</span>
                 {current.headers.l3}
               </div>
             )}
             {current.headers.l3Modified && (
-              <div className="p-2 rounded bg-slate-800 border border-cyan-600 text-cyan-300">
-                <span className="text-cyan-400 text-[10px] block uppercase">Layer 3: IP Packet Header (TTL Decremented)</span>
+              <div className="p-3 rounded-xl bg-slate-900 border border-cyan-600 text-cyan-300">
+                <span className="text-cyan-400 text-[10px] font-semibold block uppercase tracking-wider mb-0.5">Layer 3: IP Packet Header (TTL Decremented)</span>
                 {current.headers.l3Modified}
               </div>
             )}
             {current.headers.l4 && (
-              <div className="p-2 rounded bg-slate-800 border border-slate-700 text-amber-400">
-                <span className="text-slate-400 text-[10px] block uppercase">Layer 4: TCP Segment Header</span>
+              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-amber-400">
+                <span className="text-slate-400 text-[10px] font-semibold block uppercase tracking-wider mb-0.5">Layer 4: TCP Segment Header</span>
                 {current.headers.l4}
               </div>
             )}
             {current.headers.payload && (
-              <div className="p-2 rounded bg-slate-800 border border-slate-700 text-slate-200">
-                <span className="text-slate-400 text-[10px] block uppercase">Layer 7: User Application Data</span>
+              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-200">
+                <span className="text-slate-400 text-[10px] font-semibold block uppercase tracking-wider mb-0.5">Layer 7: User Application Data</span>
                 {current.headers.payload}
               </div>
             )}
             {current.headers.trailer && (
-              <div className="p-2 rounded bg-slate-800 border border-slate-700 text-purple-400">
-                <span className="text-slate-400 text-[10px] block uppercase">Layer 2 Trailer</span>
+              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-purple-400">
+                <span className="text-slate-400 text-[10px] font-semibold block uppercase tracking-wider mb-0.5">Layer 2 Trailer</span>
                 {current.headers.trailer}
               </div>
             )}
@@ -227,18 +227,18 @@ export const PacketVisualizer: React.FC = () => {
 
         {/* Concept Notes & Cybersecurity Box */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-          <div className="p-3.5 rounded-lg bg-indigo-50/50 border border-indigo-100 text-xs">
-            <span className="font-semibold text-indigo-900 block mb-1 flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-indigo-600" /> Networking Mechanism
+          <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-100 text-xs sm:text-sm">
+            <span className="font-bold text-indigo-900 block mb-1.5 flex items-center gap-1.5">
+              <Cpu className="w-4 h-4 text-indigo-600" /> Networking Mechanism
             </span>
-            <p className="text-indigo-950 leading-relaxed">{current.explanation}</p>
+            <p className="text-indigo-950 leading-relaxed text-xs">{current.explanation}</p>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-amber-50/50 border border-amber-100 text-xs">
-            <span className="font-semibold text-amber-900 block mb-1 flex items-center gap-1.5">
-              <ShieldAlert className="w-3.5 h-3.5 text-amber-600" /> Cybersecurity / SOC Context
+          <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-100 text-xs sm:text-sm">
+            <span className="font-bold text-amber-900 block mb-1.5 flex items-center gap-1.5">
+              <ShieldAlert className="w-4 h-4 text-amber-600" /> Cybersecurity / SOC Context
             </span>
-            <p className="text-amber-950 leading-relaxed">{current.socNote}</p>
+            <p className="text-amber-950 leading-relaxed text-xs">{current.socNote}</p>
           </div>
         </div>
       </div>

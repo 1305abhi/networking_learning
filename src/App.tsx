@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Network } from 'lucide-react';
 import { CurrentView } from './types';
 import { useProgress } from './context/ProgressContext';
 import { Navbar } from './components/layout/Navbar';
@@ -28,7 +29,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900">
       
       {/* Top Fixed Header */}
       <Navbar
@@ -41,7 +42,7 @@ export const App: React.FC = () => {
       />
 
       {/* Main App Body */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {currentView === 'dashboard' && (
           <DashboardView
             onSelectDay={handleSelectDay}
@@ -74,25 +75,33 @@ export const App: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-6 mt-12 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2 font-medium">
-            <span className="text-slate-900 font-semibold">NetLearn</span>
-            <span>• 30-Day Networking Fundamentals & CCNA Readiness</span>
+      <footer className="bg-white/95 backdrop-blur-md border-t border-slate-200/80 py-8 mt-16 text-xs text-slate-500 shadow-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-md bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+              <Network className="w-3.5 h-3.5" />
+            </div>
+            <span className="text-slate-900 font-bold tracking-tight">NetLearn</span>
+            <span className="text-slate-300">•</span>
+            <span>30-Day Networking Fundamentals & CCNA Readiness</span>
           </div>
-          <div className="flex items-center gap-4 text-slate-400">
-            <span>Local-First Storage</span>
+          
+          <div className="flex items-center gap-3 text-slate-400">
+            <span className="text-slate-400">Local-First Storage</span>
             <span>•</span>
             <button 
               onClick={() => setIsSettingsOpen(true)}
-              className="hover:text-slate-700 transition-colors"
+              className="px-2.5 py-1 rounded-lg hover:bg-slate-100 hover:text-slate-700 transition-colors"
             >
               Export / Import
             </button>
             <span>•</span>
             <button
-              onClick={() => setCurrentView('final-assessment')}
-              className="hover:text-indigo-600 transition-colors"
+              onClick={() => {
+                setCurrentView('final-assessment');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-2.5 py-1 rounded-lg text-indigo-600 hover:bg-indigo-50 font-medium transition-colors"
             >
               Day 30 Exam
             </button>
